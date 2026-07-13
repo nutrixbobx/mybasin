@@ -345,7 +345,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-date-fns/3.0.0/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script>
 "use strict";
 /* ============================ state & helpers ============================ */
@@ -496,16 +495,21 @@ async function loadAll(token){
   $('#netbanner').style.display = anyOK ? 'none' : 'block';
   if(!anyOK){ $('#statusline').textContent='network blocked in this preview'; return; }
 
-  if(wR.status==='fulfilled'){ S.data.w=wR.value; renderOverview(); renderConditions(); renderWind(); renderHumidity(); }
+  const safe=(fn,sel)=>{ try{ fn(); }catch(err){ console.error(sel,err);
+    if(sel){ const s=$(sel); if(s && !s.querySelector('.render-err'))
+      s.insertAdjacentHTML('beforeend',`<div class="err render-err" style="margin-top:10px">Section error: ${err.message}</div>`);} } };
+
+  if(wR.status==='fulfilled'){ S.data.w=wR.value;
+    safe(renderOverview,'#place'); safe(renderConditions,'#s1'); safe(renderWind,'#s3'); safe(renderHumidity,'#s5'); }
   else { $('#cond').innerHTML='<div class="err">Weather data unavailable — check your connection or try another point.</div>'; }
 
-  if(aR.status==='fulfilled'){ S.data.a=aR.value; renderAQI(); }
+  if(aR.status==='fulfilled'){ S.data.a=aR.value; safe(renderAQI,'#s4'); }
   else { $('#aqiTable').querySelector('tbody').innerHTML='<tr><td colspan="6"><div class="err">Air-quality data unavailable here.</div></td></tr>'; }
 
-  if(eR.status==='fulfilled'){ renderTerrain(eR.value,pts,bearings,rings); }
+  if(eR.status==='fulfilled'){ safe(()=>renderTerrain(eR.value,pts,bearings,rings),'#s2'); }
   else { $('#landverdict').innerHTML='<h3>Terrain data unavailable</h3><p>The elevation service didn’t respond for this point.</p>'; }
 
-  if(cR.status==='fulfilled'){ S.data.c=cR.value; renderClimate(); }
+  if(cR.status==='fulfilled'){ S.data.c=cR.value; safe(renderClimate,'#s6'); }
   else { $('#climTable').querySelector('tbody').innerHTML='<tr><td colspan="6"><div class="err">Climate archive unavailable here.</div></td></tr>'; }
 
   const upd = wR.status==='fulfilled' ? new Date(S.data.w.current.time).toLocaleString([], {hour:'2-digit',minute:'2-digit'}) : '';
@@ -710,7 +714,7 @@ function renderWind(){
   const i0=t.findIndex(d=>d.getTime()>=now-3*864e5), i1=t.findIndex(d=>d.getTime()>=now+2*864e5);
   const lo=i0<0?0:i0, hi=i1<0?t.length:i1;
   mkChart('gustChart',{type:'line',
-    data:{labels:t.slice(lo,hi),datasets:[
+    data:{labels:t.slice(lo,hi).map(lblFmt),datasets:[
       {label:`Gust (${SPDu()})`,data:h.wind_gusts_10m.slice(lo,hi).map(v=>SPD(v)),borderColor:'#a9572a',backgroundColor:'rgba(169,87,42,.08)',fill:true,borderWidth:1.4,pointRadius:0,tension:.3},
       {label:`Sustained (${SPDu()})`,data:h.wind_speed_10m.slice(lo,hi).map(v=>SPD(v)),borderColor:'#0d6c74',borderWidth:1.8,pointRadius:0,tension:.3},
     ]},options:tsOpts(SPDu())});
@@ -775,7 +779,7 @@ function drawAqiChart(key){
   const unit = key==='us_aqi'?'AQI':'µg/m³';
   const color = key==='us_aqi'?'#8a4fb0':'#0d6c74';
   mkChart('aqiChart',{type:'line',
-    data:{labels:t,datasets:[{label:key.replace(/_/g,' ')+` (${unit})`,data:h[key],borderColor:color,
+    data:{labels:t.map(lblFmt),datasets:[{label:key.replace(/_/g,' ')+` (${unit})`,data:h[key],borderColor:color,
       backgroundColor:color+'18',fill:true,borderWidth:1.6,pointRadius:0,tension:.25}]},
     options:tsOpts(unit)}, 'aqiChart');
 }
@@ -799,7 +803,7 @@ function renderHumidity(){
   const t=h.time.map(x=>new Date(x)); const now=Date.now();
   const lo=Math.max(0,t.findIndex(d=>d.getTime()>=now-2*864e5)), hi0=t.findIndex(d=>d.getTime()>=now+3*864e5); const hi=hi0<0?t.length:hi0;
   mkChart('humChart',{type:'line',
-    data:{labels:t.slice(lo,hi),datasets:[
+    data:{labels:t.slice(lo,hi).map(lblFmt),datasets:[
       {label:`Temp (${Tu()})`,data:h.temperature_2m.slice(lo,hi).map(v=>T(v)),borderColor:'#a9572a',borderWidth:1.8,pointRadius:0,tension:.3},
       {label:`Dew point (${Tu()})`,data:h.dew_point_2m.slice(lo,hi).map(v=>T(v)),borderColor:'#0d6c74',backgroundColor:'rgba(13,108,116,.08)',fill:true,borderWidth:1.8,pointRadius:0,tension:.3},
     ]},options:tsOpts(Tu())});
@@ -837,12 +841,13 @@ function renderClimate(){
 
 /* ============================ chart utils ============================ */
 const charts={};
+const lblFmt=d=>d.toLocaleString([], {weekday:'short', hour:'numeric'});
 function mkChart(id,cfg){ if(charts[id])charts[id].destroy(); const ctx=document.getElementById(id); charts[id]=new Chart(ctx,cfg); }
 function tsOpts(unit){
   return {responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{labels:{font:{family:'IBM Plex Mono',size:10},boxWidth:12,padding:10}},
       tooltip:{titleFont:{family:'IBM Plex Mono'},bodyFont:{family:'IBM Plex Mono'}}},
-    scales:{x:{type:'time',time:{unit:'day'},grid:{display:false},ticks:{font:{family:'IBM Plex Mono',size:9},maxRotation:0}},
+    scales:{x:{grid:{display:false},ticks:{font:{family:'IBM Plex Mono',size:9},maxRotation:0,autoSkip:true,maxTicksLimit:6}},
       y:{grid:{color:'#eef2f4'},ticks:{font:{family:'IBM Plex Mono',size:10}},title:{display:true,text:unit,font:{family:'IBM Plex Mono',size:10}}}}};
 }
 

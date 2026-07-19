@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>MyBasin Atmospheric Station: local climate, terrain & air investigation</title>
+<title>MyBasin — Your atmospheric station for local climate, terrain & air investigation</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,6 @@ h1,h2,h3{font-family:"Space Grotesk",sans-serif;font-weight:600;margin:0;letter-
 a{color:var(--teal)}
 button{font-family:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:4px}
-
 /* ---------- command bar ---------- */
 .bar{
   position:sticky;top:0;z-index:1200;background:rgba(233,238,241,.9);
@@ -42,6 +41,7 @@ button{font-family:inherit;cursor:pointer}
   border:1.5px solid var(--teal);border-radius:6px;padding:2px 6px;letter-spacing:.02em}
 .brand b{font-family:"Space Grotesk";font-weight:600;font-size:15px;letter-spacing:-.02em}
 .brand span{font-size:11px;color:var(--ink-3);font-family:"IBM Plex Mono"}
+@media(max-width:980px){.brand .slogan{display:none}}
 .search{position:relative;flex:1;min-width:190px;max-width:360px}
 .search input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--line-2);border-radius:9px;
   background:#fff;font-size:14px;font-family:inherit;color:var(--ink)}
@@ -63,7 +63,6 @@ button{font-family:inherit;cursor:pointer}
 .units{display:flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden;background:#fff}
 .units button{padding:8px 11px;border:0;background:none;font-family:"IBM Plex Mono";font-size:12.5px;color:var(--ink-3)}
 .units button.on{background:var(--ink);color:#fff}
-
 /* ---------- layout ---------- */
 .wrap{max-width:1200px;margin:0 auto;padding:18px}
 .hero{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:16px}
@@ -73,7 +72,6 @@ button{font-family:inherit;cursor:pointer}
 .maphint{position:absolute;left:12px;bottom:12px;z-index:400;background:rgba(251,252,253,.92);
   border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:11px;color:var(--ink-2);
   font-family:"IBM Plex Mono";pointer-events:none}
-
 .place{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:18px 18px 8px;
   box-shadow:var(--shadow);display:flex;flex-direction:column}
 .eyebrow{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600}
@@ -89,7 +87,6 @@ button{font-family:inherit;cursor:pointer}
   font-family:"Space Grotesk";font-weight:700;font-size:18px;flex-shrink:0}
 .aqichip .lbl b{font-family:"Space Grotesk"}
 .aqichip .lbl div{font-size:12px;color:var(--ink-3)}
-
 /* ---------- sections ---------- */
 section{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:20px;
   margin-bottom:16px;box-shadow:var(--shadow)}
@@ -102,7 +99,6 @@ section{background:var(--panel);border:1px solid var(--line-2);border-radius:14p
 @media(max-width:760px){.split{grid-template-columns:1fr}}
 .split.wide{grid-template-columns:1.2fr .8fr}
 @media(max-width:760px){.split.wide{grid-template-columns:1fr}}
-
 /* ---------- tables ---------- */
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{text-align:left;padding:8px 8px;border-bottom:1px solid var(--line)}
@@ -114,7 +110,6 @@ tbody tr:hover{background:var(--panel-2)}
 .val-strong{font-family:"IBM Plex Mono";font-weight:600}
 .note{font-size:12px;color:var(--ink-3);margin-top:10px;line-height:1.5}
 .note b{color:var(--ink-2)}
-
 /* readout grid */
 .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);
   border:1px solid var(--line);border-radius:11px;overflow:hidden}
@@ -123,7 +118,6 @@ tbody tr:hover{background:var(--panel-2)}
 .cell .v{font-family:"Space Grotesk";font-weight:600;font-size:20px;margin-top:3px}
 .cell .v small{font-size:12px;color:var(--ink-3);font-weight:500}
 .cell .x{font-size:11px;color:var(--ink-3);margin-top:1px;font-family:"IBM Plex Mono"}
-
 .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-family:"IBM Plex Mono";
   font-weight:600;color:#fff}
 .chartbox{position:relative;height:220px}
@@ -133,24 +127,19 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
 .svgc{width:100%;height:auto;display:block}
 .legend{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:12px;font-size:11px;color:var(--ink-2);font-family:"IBM Plex Mono"}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-
 .verdict{border-left:3px solid var(--teal);background:var(--teal-l);padding:12px 14px;border-radius:0 10px 10px 0;margin-top:4px}
 .verdict h3{font-size:15px;margin-bottom:3px}
 .verdict p{margin:4px 0 0;font-size:13px;color:var(--ink-2)}
-
 .tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
 .tabs button{padding:6px 11px;border:1px solid var(--line-2);background:#fff;border-radius:8px;
   font-size:12px;font-family:"IBM Plex Mono";color:var(--ink-3)}
 .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-
 .refs{columns:2;column-gap:26px;font-size:12.5px;color:var(--ink-2)}
 @media(max-width:640px){.refs{columns:1}}
 .refs li{margin-bottom:8px;break-inside:avoid}
 .refs .mono{color:var(--ink-3);font-size:11px}
-
 .foot{max-width:1200px;margin:0 auto;padding:8px 18px 40px;color:var(--ink-3);font-size:11.5px;
   font-family:"IBM Plex Mono";display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-
 /* loading + error */
 .skel{background:linear-gradient(90deg,var(--panel-2) 25%,#e6ecef 37%,var(--panel-2) 63%);
   background-size:400% 100%;animation:sh 1.3s ease infinite;border-radius:6px;color:transparent}
@@ -159,22 +148,20 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
 .loading-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);
   margin-right:7px;animation:pulse 1s ease infinite}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-
 /* wind marker */
 .windmark{filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
 .leaflet-container{font-family:"IBM Plex Mono",monospace}
 .samp{stroke:#fff;stroke-width:1}
-
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-
 <div class="bar">
   <div class="bar-in">
     <div class="brand">
-      <span class="glyph">ATM</span>
-      <b>Atmospheric Station</b>
+      <span class="glyph">MB</span>
+      <b>MyBasin</b>
+      <span class="slogan">Your atmospheric station for local climate, terrain &amp; air investigation</span>
       <span id="statusline">locating…</span>
     </div>
     <div class="search">
@@ -192,7 +179,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
     </div>
   </div>
 </div>
-
 <div class="wrap">
   <div id="netbanner" style="display:none;margin-bottom:14px" class="err">
     <b>The preview is blocking data requests.</b> This app fetches live weather, terrain and air-quality data,
@@ -212,14 +198,12 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
       <div class="aqichip" id="aqichip"></div>
     </div>
   </div>
-
   <!-- §1 CONDITIONS -->
   <section id="s1">
     <div class="shead"><span class="snum">§1</span><h2>Present conditions</h2></div>
     <p class="sdesc">Live surface observations at the station. Values are model-analysed to the exact coordinate at roughly 9&nbsp;km resolution and refreshed hourly.</p>
     <div class="rgrid" id="cond"></div>
   </section>
-
   <!-- §2 TERRAIN -->
   <section id="s2">
     <div class="shead"><span class="snum">§2</span><h2>Terrain &amp; basin analysis</h2></div>
@@ -247,7 +231,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
     </div>
     <p class="note"><b>How to read it:</b> a station ringed by higher ground on most bearings is a <b>basin</b> — cold, dense air drains downslope at night and pools, forming temperature inversions that cap the air like a lid and let pollutants accumulate. Open or elevated sites ventilate freely. This is the single most useful lens for interpreting the wind and air-quality sections below.</p>
   </section>
-
   <!-- §3 WIND -->
   <section id="s3">
     <div class="shead"><span class="snum">§3</span><h2>Wind regime</h2></div>
@@ -265,7 +248,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
       </div>
     </div>
   </section>
-
   <!-- §4 AIR QUALITY -->
   <section id="s4">
     <div class="shead"><span class="snum">§4</span><h2>Air quality</h2></div>
@@ -294,7 +276,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
     <div class="chartbox tall"><canvas id="aqiChart"></canvas></div>
     <figcaption>Fig. 4.2 — Hourly trend, past 3 days → next 2 days.</figcaption>
   </section>
-
   <!-- §5 HUMIDITY -->
   <section id="s5">
     <div class="shead"><span class="snum">§5</span><h2>Humidity &amp; moisture</h2></div>
@@ -308,7 +289,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
     </div>
     <p class="note" id="moistNote"></p>
   </section>
-
   <!-- §6 CLIMATE -->
   <section id="s6">
     <div class="shead"><span class="snum">§6</span><h2>Climate baseline</h2></div>
@@ -321,7 +301,6 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
       </tr></thead><tbody></tbody></table>
     </div>
   </section>
-
   <!-- §7 METHODS -->
   <section id="s7">
     <div class="shead"><span class="snum">§7</span><h2>Methods &amp; sources</h2></div>
@@ -337,12 +316,10 @@ figcaption{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono";margi
     </ol>
   </section>
 </div>
-
 <div class="foot">
-  <span>Atmospheric Station · built for field-scale investigation of any coordinate on Earth</span>
+  <span>MyBasin · your atmospheric station for local climate, terrain &amp; air investigation</span>
   <span id="footclock">—</span>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
@@ -356,7 +333,6 @@ const COMPASS8=['N','NE','E','SE','S','SW','W','NW'];
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const AQI_COLORS=['#3a9d5d','#d4b106','#ef8a2b','#d83b3b','#8a4fb0','#7a2230'];
 const AQI_BANDS=[[0,50,'Good'],[51,100,'Moderate'],[101,150,'Unhealthy for sensitive'],[151,200,'Unhealthy'],[201,300,'Very unhealthy'],[301,500,'Hazardous']];
-
 const fmt=(v,d=0)=> (v==null||Number.isNaN(v))?'—':Number(v).toFixed(d);
 const degToCompass=d=>COMPASS16[Math.round(((d%360)+360)%360/22.5)%16];
 // unit conversions (source data is metric)
@@ -370,7 +346,6 @@ const ELV = m => S.metric ? m : (m==null?null:m*3.28084);
 const ELVu=()=> S.metric?'m':'ft';
 const PRECIP=mm=> S.metric ? mm : (mm==null?null:mm/25.4);
 const PRECIPu=()=> S.metric?'mm':'in';
-
 function aqiInfo(v){
   if(v==null) return {i:-1,c:'#9aa7ad',label:'—'};
   for(let i=0;i<AQI_BANDS.length;i++){ if(v<=AQI_BANDS[i][1]) return {i,c:AQI_COLORS[i],label:AQI_BANDS[i][2]}; }
@@ -383,7 +358,6 @@ function dest(lat,lon,brg,dKm){
   return [la2*180/Math.PI,((lo2*180/Math.PI+540)%360)-180];
 }
 async function getJSON(url){ const r=await fetch(url); if(!r.ok) throw new Error(url+' → '+r.status); return r.json(); }
-
 /* ============================ map ============================ */
 let map, marker, ringLayer, sampleLayer;
 function initMap(){
@@ -418,7 +392,6 @@ function drawSamples(pts,e0){
       .bindTooltip(`${p.label} · ${fmt(ELV(p.e))} ${ELVu()}`,{direction:'top'}).addTo(sampleLayer);
   });
 }
-
 /* ============================ geocoding / relocate ============================ */
 let acTimer;
 $('#q').addEventListener('input',e=>{
@@ -439,7 +412,6 @@ $('#q').addEventListener('input',e=>{
   },250);
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')) $('#ac').classList.remove('show'); });
-
 async function reverseName(lat,lon){
   try{
     const d=await getJSON(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
@@ -448,7 +420,6 @@ async function reverseName(lat,lon){
     return {name,admin};
   }catch(_){ return {name:'Selected point',admin:`${lat.toFixed(3)}, ${lon.toFixed(3)}`}; }
 }
-
 let reqToken=0;
 async function relocate(lat,lon,name,admin){
   S.lat=lat;S.lon=lon;
@@ -460,7 +431,6 @@ async function relocate(lat,lon,name,admin){
   $('#statusline').innerHTML='<span class="loading-dot"></span>reading atmosphere…';
   loadAll(++reqToken);
 }
-
 /* ============================ master load ============================ */
 async function loadAll(token){
   const {lat,lon}=S;
@@ -474,48 +444,37 @@ async function loadAll(token){
   const aq=`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`+
     `&current=us_aqi,european_aqi,pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide,dust,uv_index`+
     `&hourly=pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide,us_aqi&past_days=3&forecast_days=2&timezone=auto`;
-
   // elevation transects
   const bearings=[0,45,90,135,180,225,270,315], rings=[5,10,15,20,25];
   const pts=[{lat,lon,label:'Station',b:-1,r:0}];
   bearings.forEach((b,bi)=>rings.forEach(rk=>{const[la,lo]=dest(lat,lon,b,rk);pts.push({lat:la,lon:lo,label:`${COMPASS8[bi]} ${rk}km`,b,r:rk});}));
   const elLat=pts.map(p=>p.lat.toFixed(4)).join(','), elLon=pts.map(p=>p.lon.toFixed(4)).join(',');
   const elv=`https://api.open-meteo.com/v1/elevation?latitude=${elLat}&longitude=${elLon}`;
-
   const today=new Date(), end=new Date(today.getTime()-6*864e5);
   const start=new Date(end.getTime()-5*365*864e5);
   const iso=d=>d.toISOString().slice(0,10);
   const clim=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`+
     `&start_date=${iso(start)}&end_date=${iso(end)}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
-
   const [wR,aR,eR,cR]=await Promise.allSettled([getJSON(fc),getJSON(aq),getJSON(elv),getJSON(clim)]);
   if(token!==reqToken) return; // superseded
-
   const anyOK=[wR,aR,eR,cR].some(r=>r.status==='fulfilled');
   $('#netbanner').style.display = anyOK ? 'none' : 'block';
   if(!anyOK){ $('#statusline').textContent='network blocked in this preview'; return; }
-
   const safe=(fn,sel)=>{ try{ fn(); }catch(err){ console.error(sel,err);
     if(sel){ const s=$(sel); if(s && !s.querySelector('.render-err'))
       s.insertAdjacentHTML('beforeend',`<div class="err render-err" style="margin-top:10px">Section error: ${err.message}</div>`);} } };
-
   if(wR.status==='fulfilled'){ S.data.w=wR.value;
     safe(renderOverview,'#place'); safe(renderConditions,'#s1'); safe(renderWind,'#s3'); safe(renderHumidity,'#s5'); }
   else { $('#cond').innerHTML='<div class="err">Weather data unavailable — check your connection or try another point.</div>'; }
-
   if(aR.status==='fulfilled'){ S.data.a=aR.value; safe(renderAQI,'#s4'); }
   else { $('#aqiTable').querySelector('tbody').innerHTML='<tr><td colspan="6"><div class="err">Air-quality data unavailable here.</div></td></tr>'; }
-
   if(eR.status==='fulfilled'){ safe(()=>renderTerrain(eR.value,pts,bearings,rings),'#s2'); }
   else { $('#landverdict').innerHTML='<h3>Terrain data unavailable</h3><p>The elevation service didn’t respond for this point.</p>'; }
-
   if(cR.status==='fulfilled'){ S.data.c=cR.value; safe(renderClimate,'#s6'); }
   else { $('#climTable').querySelector('tbody').innerHTML='<tr><td colspan="6"><div class="err">Climate archive unavailable here.</div></td></tr>'; }
-
   const upd = wR.status==='fulfilled' ? new Date(S.data.w.current.time).toLocaleString([], {hour:'2-digit',minute:'2-digit'}) : '';
   $('#statusline').textContent = upd? `updated ${upd}`:'ready';
 }
-
 /* ============================ §hero + §1 ============================ */
 function renderOverview(){
   const c=S.data.w.current, u=S.data.w.current_units;
@@ -545,7 +504,6 @@ function renderConditions(){
   ];
   $('#cond').innerHTML=cells.map(c=>`<div class="cell"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="x">${c[2]||''}</div></div>`).join('');
 }
-
 /* ============================ §2 TERRAIN ============================ */
 let currentSamples=[];
 function renderTerrain(elvRes,pts,bearings,rings){
@@ -557,7 +515,6 @@ function renderTerrain(elvRes,pts,bearings,rings){
   // analysis ring on map
   ringLayer.clearLayers();
   L.circle([S.lat,S.lon],{radius:25000,color:'#0d6c74',weight:1,dashArray:'4 5',fill:false,opacity:.6}).addTo(ringLayer);
-
   // per-bearing
   const dirs=bearings.map((b,bi)=>{
     const prof=rings.map(rk=>pts.find(p=>p.b===b&&p.r===rk).e);
@@ -567,20 +524,17 @@ function renderTerrain(elvRes,pts,bearings,rings){
   const meanSurround=dirs.reduce((a,d)=>a+d.mean,0)/dirs.length;
   const enclosure=dirs.filter(d=>d.peak-e0>120).length;
   const higher=dirs.filter(d=>d.peak-e0>50).length;
-
   let land,expl,stag,stagC;
   if(enclosure>=6){land='Enclosed basin';expl='Higher ground surrounds you on nearly every side. At night, cold dense air drains down the slopes and pools here, forming strong temperature inversions that trap haze, fog and pollutants until the sun or wind breaks them.';stag='High';stagC='#d83b3b';}
   else if(enclosure>=4){land='Valley / partly enclosed';expl='Terrain rises on several bearings — a valley or basin margin. Air drains and channels along the low axis; expect down-valley breezes at night and reduced mixing in calm spells.';stag='Elevated';stagC='#ef8a2b';}
   else if(e0-meanSurround>150){land='Ridge / summit';expl='You sit well above the surrounding land. Exposed sites ventilate freely and rarely trap pollution, but they take the full force of the wind and see the sharpest temperature swings.';stag='Low';stagC='#3a9d5d';}
   else if(relief<80){land='Plain / plateau';expl='The land is broadly flat for 25 km around. Little terrain steering of the wind; mixing depends mostly on weather rather than local shape.';stag='Low–moderate';stagC='#7fa03a';}
   else{land='Open slope / undulating terrain';expl='Moderate, one-sided relief without full enclosure. Some channeling and slope breezes, but generally decent ventilation.';stag='Moderate';stagC='#d4b106';}
-
   $('#landverdict').innerHTML=
     `<h3>${land}</h3>
      <p>${expl}</p>
      <p style="margin-top:8px"><b>Station elevation</b> ${fmt(ELV(e0),0)} ${ELVu()} · <b>local relief</b> ${fmt(ELV(relief),0)} ${ELVu()} · <b>enclosing bearings</b> ${enclosure}/8
      · <b>air-stagnation susceptibility</b> <span class="badge" style="background:${stagC}">${stag}</span></p>`;
-
   // table
   const tb=$('#terrainTable tbody'); tb.innerHTML='';
   dirs.forEach((d,i)=>{
@@ -591,7 +545,6 @@ function renderTerrain(elvRes,pts,bearings,rings){
        <td class="n" style="color:${dv>50?'#a9572a':dv<-50?'#2c6e63':'var(--ink-3)'}">${dv>0?'+':''}${fmt(ELV(dv),0)}</td>
        <td class="n">${fmt(ELV(d.mean),0)}</td><td>${ch}</td>`));
   });
-
   drawBasinRose(dirs,e0);
   drawXSection(dirs,e0,rings);
 }
@@ -654,7 +607,6 @@ function drawXSection(dirs,e0,rings){
       <rect x="${padL+52}" y="${padT-2}" width="10" height="3" fill="#0d6c74"/><text x="${padL+66}" y="${padT+2}" font-family="IBM Plex Mono" font-size="9" fill="#6d818b">N–S</text>`;
   svg.innerHTML=s;
 }
-
 /* ============================ §3 WIND ============================ */
 function renderWind(){
   const h=S.data.w.hourly;
@@ -672,7 +624,6 @@ function renderWind(){
   const total=n||1;
   const sectPct=sect.map(a=>a.map(x=>x/total*100));
   const maxSect=Math.max(...sectPct.map(a=>a.reduce((s,x)=>s+x,0)),1);
-
   // draw rose
   const svg=$('#windRose'),cx=210,cy=210,rIn=26,rOut=170;
   const scale=v=> rIn+(v/maxSect)*(rOut-rIn);
@@ -695,7 +646,6 @@ function renderWind(){
   s+=`<text x="${cx}" y="${cy+11}" text-anchor="middle" font-family="Space Grotesk" font-size="14" font-weight="600" fill="#14232b">${(calm/total*100).toFixed(0)}%</text>`;
   svg.innerHTML=s;
   $('#windLegend').innerHTML=binLbl.map((l,i)=>`<span><i style="background:${binCols[i]}"></i>${l} ${SPDu()}</span>`).join('');
-
   // prevailing = sector with max total
   const totals=sectPct.map(a=>a.reduce((s,x)=>s+x,0));
   const pv=totals.indexOf(Math.max(...totals));
@@ -708,7 +658,6 @@ function renderWind(){
     ['Calm hours',`${(calm/total*100).toFixed(0)}<small>%</small>`, calm/total>0.15?'low ventilation':'well ventilated'],
   ];
   $('#windStats').innerHTML=stats.map(x=>`<div class="cell"><div class="k">${x[0]}</div><div class="v">${x[1]}</div><div class="x">${x[2]||''}</div></div>`).join('');
-
   // gust chart
   const t=h.time.map(x=>new Date(x)); const now=Date.now();
   const i0=t.findIndex(d=>d.getTime()>=now-3*864e5), i1=t.findIndex(d=>d.getTime()>=now+2*864e5);
@@ -719,7 +668,6 @@ function renderWind(){
       {label:`Sustained (${SPDu()})`,data:h.wind_speed_10m.slice(lo,hi).map(v=>SPD(v)),borderColor:'#0d6c74',borderWidth:1.8,pointRadius:0,tension:.3},
     ]},options:tsOpts(SPDu())});
 }
-
 /* ============================ §4 AQI ============================ */
 const POLL=[
   ['us_aqi','US AQI (index)','',v=>aqiInfo(v).label],
@@ -783,7 +731,6 @@ function drawAqiChart(key){
       backgroundColor:color+'18',fill:true,borderWidth:1.6,pointRadius:0,tension:.25}]},
     options:tsOpts(unit)}, 'aqiChart');
 }
-
 /* ============================ §5 HUMIDITY ============================ */
 function renderHumidity(){
   const c=S.data.w.current,h=S.data.w.hourly;
@@ -799,7 +746,6 @@ function renderHumidity(){
   ];
   $('#moistStats').innerHTML=cells.map(x=>`<div class="cell"><div class="k">${x[0]}</div><div class="v">${x[1]}</div><div class="x">${x[2]||''}</div></div>`).join('');
   $('#moistNote').innerHTML=`<b>Why dew point beats humidity:</b> relative humidity of 60% at 10${Tu()} and at 30${Tu()} describe completely different air. Dew point is the temperature at which that air would saturate — it barely moves as the day warms, so it’s the honest measure of how much water is actually present. Right now the dew point is <b>${dpFeel}</b>. VPD (the atmosphere’s "thirst") is what drives evaporation from soil, leaves and skin.`;
-
   const t=h.time.map(x=>new Date(x)); const now=Date.now();
   const lo=Math.max(0,t.findIndex(d=>d.getTime()>=now-2*864e5)), hi0=t.findIndex(d=>d.getTime()>=now+3*864e5); const hi=hi0<0?t.length:hi0;
   mkChart('humChart',{type:'line',
@@ -809,7 +755,6 @@ function renderHumidity(){
     ]},options:tsOpts(Tu())});
 }
 function currentVPD(tC,rh){ const es=0.6108*Math.exp(17.27*tC/(tC+237.3)); return es*(1-rh/100); }
-
 /* ============================ §6 CLIMATE ============================ */
 function renderClimate(){
   const d=S.data.c.daily; const t=d.time;
@@ -838,7 +783,6 @@ function renderClimate(){
      <td class="n val-strong">${fmt(T(m.hi),1)}</td><td class="n">${fmt(T(m.lo),1)}</td>
      <td class="n">${fmt(T(m.mean),1)}</td><td class="n">${fmt(PRECIP(m.pr),0)}</td>`)));
 }
-
 /* ============================ chart utils ============================ */
 const charts={};
 const lblFmt=d=>d.toLocaleString([], {weekday:'short', hour:'numeric'});
@@ -850,7 +794,6 @@ function tsOpts(unit){
     scales:{x:{grid:{display:false},ticks:{font:{family:'IBM Plex Mono',size:9},maxRotation:0,autoSkip:true,maxTicksLimit:6}},
       y:{grid:{color:'#eef2f4'},ticks:{font:{family:'IBM Plex Mono',size:10}},title:{display:true,text:unit,font:{family:'IBM Plex Mono',size:10}}}}};
 }
-
 /* ============================ units + geolocation ============================ */
 $('#u-metric').onclick=()=>setUnits(true);
 $('#u-imp').onclick=()=>setUnits(false);
@@ -869,7 +812,6 @@ let lastTerrain=null;
 const _rt=renderTerrain;
 renderTerrain=function(elvRes,pts,bearings,rings){ lastTerrain={elvRes,pts,bearings,rings}; _rt(elvRes,pts,bearings,rings); };
 function renderTerrainCached(){ if(lastTerrain) _rt(lastTerrain.elvRes,lastTerrain.pts,lastTerrain.bearings,lastTerrain.rings); }
-
 $('#geo').onclick=()=>askGeo(true);
 function askGeo(force){
   if(!navigator.geolocation){ ipLocate(true); return; }
@@ -896,7 +838,6 @@ async function ipLocate(force){
   if(force) $('#statusline').textContent='couldn’t detect location — use search';
   return false;
 }
-
 /* ============================ boot ============================ */
 (function boot(){
   initMap();
